@@ -1,0 +1,32 @@
+// © GM 2023
+
+study("Coloração por Volume", title="CV", overlay=true)
+length = input(20, "Média", minval=1)
+volume_extremo = input(3.0, "Volume extremo", minval=0.5, step=0.5)
+volume_muito_alto = input(2.5, "Volume muito alto", minval=0.5, step=0.5)
+volume_alto = input(2.0, "Volume alto", minval=0.5, step=0.5)
+avrg = ema(volume, length)
+
+vold1 = volume > avrg * volume_extremo and close < open
+vold2 = volume <= avrg * volume_extremo and volume >= avrg * volume_muito_alto and close < open
+vold3 = volume < avrg * volume_muito_alto and volume >= avrg * volume_alto and close < open
+
+volu1 = volume > avrg * volume_extremo and close > open
+volu2 = volume <= avrg * volume_extremo and volume >= avrg * volume_muito_alto and close > open
+volu3 = volume < avrg * volume_muito_alto and volume >= avrg * volume_alto and close > open
+
+
+cold1 = #FF01F3
+cold2 = #FC0404
+cold3 = #FFFF01
+
+
+colu1 = #FF01F3
+colu2 = #FC0404
+colu3 = #FFFF01
+
+
+color_1 = vold1 ? cold1 : vold2 ? cold2 : 
+   vold3 ? cold3 : volu1 ? colu1 : volu2 ? colu2 : volu3 ? colu3 : na
+
+barcolor(color_1)
